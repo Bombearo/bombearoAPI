@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "q5vhKm74R7WlqS5rFF/oxRqBSEjszqTIqNpZLvfW6iUfbi+TkVm5ISAH1xW8Cl16q8Nb1Wzlb3fZfVUb9f5/fg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Jaden\\RiderProjects\\PersonalWebsiteAPI\\PersonalWebsiteAPI\\PersonalWebsiteAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Jaden\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\Jaden\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Jaden\\.nuget\\packages\\octokit\\0.50.0\\octokit.0.50.0.nupkg.sha512",
+    "C:\\Users\\Jaden\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
+    "C:\\Users\\Jaden\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",
+    "C:\\Users\\Jaden\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\5.6.3\\swashbuckle.aspnetcore.swaggergen.5.6.3.nupkg.sha512",
+    "C:\\Users\\Jaden\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\5.6.3\\swashbuckle.aspnetcore.swaggerui.5.6.3.nupkg.sha512"
+  ],
+  "logs": []
+}
