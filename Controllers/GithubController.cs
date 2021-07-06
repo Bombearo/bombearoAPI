@@ -21,6 +21,15 @@ namespace PersonalWebsiteAPI.Controllers
         {
             _logger = logger;
         }
+
+        public async Task<string> GetResponse(HttpClient client,string url)
+        {
+            HttpResponseMessage response = await client.GetAsync(url);
+            HttpContent responseContent = response.Content;
+
+            using var reader = new StreamReader(await responseContent.ReadAsStreamAsync());
+            return await reader.ReadToEndAsync();
+        }
         
         
         
@@ -29,17 +38,19 @@ namespace PersonalWebsiteAPI.Controllers
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
-            
-            HttpResponseMessage response = await client.GetAsync(
-                "https://api.github.com/users/bombearo/repos");
-            HttpContent responseContent = response.Content;
 
-            using (var reader = new StreamReader(await responseContent.ReadAsStreamAsync()))
+            var content = GetResponse(client, "https://api.github.com/users/bombearo/repos");
+
+            var gitList = JsonSerializer.Deserialize<List<Github>>(await content);
+
+            if (gitList == null) return null;
+            foreach (var repo in gitList)
             {
-                var content = await reader.ReadToEndAsync();
-                var gitList = JsonSerializer.Deserialize<List<Github>>(content);
-                return gitList;
+                var repoContent = GetResponse(client,repo.languages_url);
+                repo.languages = JsonSerializer.Deserialize<List<Language>>(await repoContent);
             }
+
+            return gitList;
 
         }
     }
