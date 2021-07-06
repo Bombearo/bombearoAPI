@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
+using System.Text.Json;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -25,21 +25,22 @@ namespace PersonalWebsiteAPI.Controllers
         
         
         [HttpGet]
-        public async Task<string> Get()
+        public async Task<List<Github>> Get()
         {
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
             
             HttpResponseMessage response = await client.GetAsync(
-                $"https://api.github.com/users/bombearo/repos");
+                "https://api.github.com/users/bombearo/repos");
             HttpContent responseContent = response.Content;
-            
+
             using (var reader = new StreamReader(await responseContent.ReadAsStreamAsync()))
             {
                 var content = await reader.ReadToEndAsync();
+                var gitList = JsonSerializer.Deserialize<List<Github>>(content);
+                return gitList;
             }
 
-            return "Jo";
         }
     }
 }
