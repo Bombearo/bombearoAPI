@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jaden\\RiderProjects\\PersonalWebsiteAPI\\PersonalWebsiteAPI\\PersonalWebsiteAPI.csproj": {}
+    "C:\\Users\\Jaden\\RiderProjects\\bombearoAPI\\PersonalWebsiteAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jaden\\RiderProjects\\PersonalWebsiteAPI\\PersonalWebsiteAPI\\PersonalWebsiteAPI.csproj": {
+    "C:\\Users\\Jaden\\RiderProjects\\bombearoAPI\\PersonalWebsiteAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jaden\\RiderProjects\\PersonalWebsiteAPI\\PersonalWebsiteAPI\\PersonalWebsiteAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Jaden\\RiderProjects\\bombearoAPI\\PersonalWebsiteAPI.csproj",
         "projectName": "PersonalWebsiteAPI",
-        "projectPath": "C:\\Users\\Jaden\\RiderProjects\\PersonalWebsiteAPI\\PersonalWebsiteAPI\\PersonalWebsiteAPI.csproj",
+        "projectPath": "C:\\Users\\Jaden\\RiderProjects\\bombearoAPI\\PersonalWebsiteAPI.csproj",
         "packagesPath": "C:\\Users\\Jaden\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jaden\\RiderProjects\\PersonalWebsiteAPI\\PersonalWebsiteAPI\\obj\\",
+        "outputPath": "C:\\Users\\Jaden\\RiderProjects\\bombearoAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Jaden\\AppData\\Roaming\\NuGet\\NuGet.Config"
