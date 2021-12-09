@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic.CompilerServices;
 
 
 namespace PersonalWebsiteAPI.Controllers
@@ -16,36 +18,57 @@ namespace PersonalWebsiteAPI.Controllers
     {
         private readonly ILogger<GithubController> _logger;
 
-        public GithubController(ILogger<GithubController> logger)
+        private IMemoryCache _cache;
+        
+        public GithubController(IMemoryCache memoryCache,ILogger<GithubController> logger)
         {
             _logger = logger;
+            _cache = memoryCache;
         }
 
+        [ResponseCache(Duration = 3600)]
         [HttpGet]
         public async Task<List<Github>> Get()
         {
+            const string username = "Bombearo";
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
 
-            var content = Utils.GetResponse(client, "https://api.github.com/users/bombearo/repos");
+            var content = APIResponse.GetResponse(client, $"https://api.github.com/users/{username.ToLower()}/repos");
+            
 
             var gitList = JsonSerializer.Deserialize<List<Github>>(await content);
 
             if (gitList == null) return null;
-            foreach (var repo in gitList)
+
+            var filteredGitList = (from repo in gitList
+                where repo.name != username
+                select repo).ToList();
+            
+            
+            
+            foreach (var repo in filteredGitList)
             {
-                var repoContent = Utils.GetResponse(client,repo.languages_url);
+                var repoContent = APIResponse.GetResponse(client,repo.languages_url);
                 var serializedRepo = JsonSerializer.Deserialize<Dictionary<string, int>>(await repoContent);
                 if (serializedRepo != null)
                 {
                     var languages = new List<Language>();
                     languages.AddRange(serializedRepo.Select(languagePair => new Language(languagePair.Key, languagePair.Value)));
-                    repo.languages = languages;
+                    repo.Languages = languages;
                 }
+
+                var totalChars = repo.Languages.Sum(x => x.Chars);
+                foreach (var language in repo.Languages)
+                {
+                    language.Percentage = ((double)language.Chars / (double)totalChars).ToString("0.00%");
+                }
+                
+
 
             }
 
-            return gitList;
+            return filteredGitList;
 
         }
     }

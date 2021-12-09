@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Caching;
 
 namespace PersonalWebsiteAPI
 {
@@ -10,20 +11,22 @@ namespace PersonalWebsiteAPI
 
         public string languages_url { get; set; }
 
-        public List<Language> languages { get; set; }
+        public List<Language> Languages { get; set; }
     }
 
     public class Language
     {
         public Language(string name,int chars)
         {
-            this.name = name;
-            this.chars = chars;
+            Name = name;
+            Chars = chars;
         }
         
-        public string name { get; set; }
+        public string Name { get; set; }
         
-        public int chars { get; set; }
+        public int Chars { get; set; }
+        
+        public string Percentage { get; set; }
     }
     
 
