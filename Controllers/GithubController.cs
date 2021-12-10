@@ -34,7 +34,7 @@ namespace PersonalWebsiteAPI.Controllers
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
 
-            var content = APIResponse.GetResponse(client, $"https://api.github.com/users/{username.ToLower()}/repos");
+            var content = APIResponse.GetOauthResponse(client, $"https://api.github.com/users/{username.ToLower()}/repos",APIKeys.githubKey);
             
 
             var gitList = JsonSerializer.Deserialize<List<Github>>(await content);
