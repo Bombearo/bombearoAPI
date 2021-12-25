@@ -28,7 +28,8 @@ namespace PersonalWebsiteAPI.Controllers
 
         [ResponseCache(Duration = 3600)]
         [HttpGet]
-        public async Task<List<Github>> Get()
+        [Route("repos")]
+        public async Task<List<Github>> GetRepos()
         {
             const string username = "Bombearo";
             var client = new HttpClient();
@@ -70,6 +71,14 @@ namespace PersonalWebsiteAPI.Controllers
 
             return filteredGitList;
 
+        }
+
+        [ResponseCache(Duration = 3600)]
+        [HttpGet]
+        [Route("about")]
+        public async void GetAbout()
+        {
+            Console.WriteLine("Test");
         }
     }
 }
