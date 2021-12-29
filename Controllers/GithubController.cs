@@ -26,16 +26,30 @@ namespace PersonalWebsiteAPI.Controllers
             _cache = memoryCache;
         }
 
+        
+        
+        [ResponseCache(Duration = 3600)]
+        [HttpGet]
+        [Route("user")]
+        public async Task<GithubUser> GetUser()
+        {
+            const string username = "Bombearo";
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
+            var content = APIResponse.GetOauthResponse(client, $"https://api.github.com/users/{username.ToLower()}",APIKeys.githubKey);
+            return JsonSerializer.Deserialize<GithubUser>(await content);
+        }
+        
+        
         [ResponseCache(Duration = 3600)]
         [HttpGet]
         [Route("repos")]
         public async Task<List<Github>> GetRepos()
         {
-            const string username = "Bombearo";
+            var gitUser = await GetUser();
             var client = new HttpClient();
             client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
-
-            var content = APIResponse.GetOauthResponse(client, $"https://api.github.com/users/{username.ToLower()}/repos",APIKeys.githubKey);
+            var content = APIResponse.GetOauthResponse(client, gitUser.repos_url,APIKeys.githubKey);
             
 
             var gitList = JsonSerializer.Deserialize<List<Github>>(await content);
@@ -43,7 +57,7 @@ namespace PersonalWebsiteAPI.Controllers
             if (gitList == null) return null;
 
             var filteredGitList = (from repo in gitList
-                where repo.name != username
+                where repo.name != gitUser.login
                 select repo).ToList();
             
             
