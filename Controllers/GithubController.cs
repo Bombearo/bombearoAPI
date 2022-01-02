@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Text.Json;
 using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic.CompilerServices;
-
 
 namespace PersonalWebsiteAPI.Controllers
 {
@@ -19,10 +17,14 @@ namespace PersonalWebsiteAPI.Controllers
         private readonly ILogger<GithubController> _logger;
 
         private IMemoryCache _cache;
+
+        private readonly HttpClient _client;
         
         public GithubController(IMemoryCache memoryCache,ILogger<GithubController> logger)
         {
             _logger = logger;
+            _client = new HttpClient();
+            _client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
             _cache = memoryCache;
         }
 
@@ -34,9 +36,7 @@ namespace PersonalWebsiteAPI.Controllers
         public async Task<GithubUser> GetUser()
         {
             const string username = "Bombearo";
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
-            var content = APIResponse.GetOauthResponse(client, $"https://api.github.com/users/{username.ToLower()}",APIKeys.githubKey);
+            var content = APIResponse.GetOauthResponse(_client, $"https://api.github.com/users/{username.ToLower()}",APIKeys.githubKey);
             return JsonSerializer.Deserialize<GithubUser>(await content);
         }
         
@@ -47,9 +47,7 @@ namespace PersonalWebsiteAPI.Controllers
         public async Task<List<Github>> GetRepos()
         {
             var gitUser = await GetUser();
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("User-Agent", "C# BombearoAPI");
-            var content = APIResponse.GetOauthResponse(client, gitUser.repos_url,APIKeys.githubKey);
+            var content = APIResponse.GetOauthResponse(_client, gitUser.repos_url,APIKeys.githubKey);
             
 
             var gitList = JsonSerializer.Deserialize<List<Github>>(await content);
@@ -64,7 +62,7 @@ namespace PersonalWebsiteAPI.Controllers
             
             foreach (var repo in filteredGitList)
             {
-                var repoContent = APIResponse.GetResponse(client,repo.languages_url);
+                var repoContent = APIResponse.GetResponse(_client,repo.languages_url);
                 var serializedRepo = JsonSerializer.Deserialize<Dictionary<string, int>>(await repoContent);
                 if (serializedRepo != null)
                 {
@@ -76,7 +74,7 @@ namespace PersonalWebsiteAPI.Controllers
                 var totalChars = repo.Languages.Sum(x => x.Chars);
                 foreach (var language in repo.Languages)
                 {
-                    language.Percentage = ((double)language.Chars / (double)totalChars).ToString("0.00%");
+                    language.Percentage = (language.Chars / (double)totalChars).ToString("0.00%");
                 }
                 
 
@@ -90,7 +88,7 @@ namespace PersonalWebsiteAPI.Controllers
         [ResponseCache(Duration = 3600)]
         [HttpGet]
         [Route("about")]
-        public async void GetAbout()
+        public void GetAbout()
         {
             Console.WriteLine("Test");
         }

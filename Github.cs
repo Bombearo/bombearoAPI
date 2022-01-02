@@ -33,6 +33,8 @@ namespace PersonalWebsiteAPI
         public DateTime created_at { get; set; }
         public DateTime pushed_at { get; set; }
         public DateTime updated_at { get; set; }
+
+        public string time_from_creation => Utils.getTimeBetween(created_at);
     }
 
     public class Language
